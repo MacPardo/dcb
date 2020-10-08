@@ -1,20 +1,27 @@
 package dcb.core.network;
 
+import dcb.core.messaging.Messenger;
 import dcb.core.models.Message;
-import dcb.core.utils.BlockingQueueSender;
 
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+@SuppressWarnings({
+        "IOResourceOpenedButNotSafelyClosed",
+        "InfiniteLoopStatement",
+        "SocketOpenedButNotSafelyClosed",
+        "CastToConcreteClass"
+})
 public class Server implements Runnable {
     private final int port;
-    private final BlockingQueueSender<Message> queue;
+    private final Messenger messenger;
 
-    public Server(int port, BlockingQueueSender<Message> queue) {
+    public Server(int port, Messenger messenger) {
         this.port = port;
-        this.queue = queue;
+        this.messenger = messenger;
     }
+
 
     @Override
     public void run() {
@@ -26,7 +33,7 @@ public class Server implements Runnable {
                 ObjectInputStream inputStream = new ObjectInputStream(client.getInputStream());
                 Message message = (Message) inputStream.readObject();
                 inputStream.close();
-                queue.put(message);
+                messenger.sendLocally(message);
             }
         } catch (Exception e) {
             e.printStackTrace();

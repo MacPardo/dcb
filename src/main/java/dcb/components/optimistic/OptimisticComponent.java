@@ -1,24 +1,22 @@
 package dcb.components.optimistic;
 
-import dcb.core.component.ComponentData;
 import dcb.core.component.Component;
-import dcb.core.gateway.Gateway;
+import dcb.components.ComponentFactoryArgs;
 import dcb.core.gateway.TranslatorGateway;
 import dcb.core.messaging.MessageQueue;
 import dcb.core.messaging.MessageQueueProducer;
-import dcb.core.utils.Copyable;
 
-public class OptimisticComponent<State extends Copyable<State>> extends Component<State> {
-    public OptimisticComponent(ComponentData<State> data) {
-        super(data);
+public class OptimisticComponent extends Component {
+    public OptimisticComponent(ComponentFactoryArgs args) {
+        super(args);
     }
 
     @Override
     public void run() {
-        Gateway<State> gateway = new TranslatorGateway<>(data.translator, data.core);
-        MessageQueue messageQueue = new MessageQueue();
-        MessageQueueProducer producer = new MessageQueueProducer(messageQueue, data.messageReceiver);
-        OptimisticMessageConsumer<State> consumer = new OptimisticMessageConsumer<>(messageQueue, gateway, data);
+        final var gateway = new TranslatorGateway(args.translator, args.core);
+        final var messageQueue = new MessageQueue();
+        final var producer = new MessageQueueProducer(messageQueue, args.receiver);
+        final var consumer = new OptimisticMessageConsumer(messageQueue, gateway, args);
 
         Thread producerThread = new Thread(producer);
         producerThread.start();

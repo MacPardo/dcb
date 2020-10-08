@@ -1,15 +1,15 @@
 package dcb.core.synchronization;
 
+import dcb.core.component.State;
 import dcb.core.exceptions.InsufficientCheckpointsException;
 import dcb.core.exceptions.InvalidMessageException;
 import dcb.core.exceptions.TimeViolationException;
 import dcb.core.models.Checkpoint;
 import dcb.core.models.Message;
-import dcb.core.utils.Copyable;
 
 import java.util.*;
 
-public class RollbackManager<State extends Copyable<State>> {
+public class RollbackManager {
     private static final int INITIAL_CAPACITY = 16;
     private State state;
     private long lvt = 0L;
@@ -49,7 +49,7 @@ public class RollbackManager<State extends Copyable<State>> {
     public RollbackManager(int newId, State initialState) {
         state = initialState;
         id = newId;
-        checkpoints.add(new Checkpoint<>(0, initialState.copy()));
+        checkpoints.add(new Checkpoint<>(0L, initialState.copy()));
     }
 
 

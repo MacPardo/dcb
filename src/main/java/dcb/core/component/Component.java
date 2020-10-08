@@ -1,11 +1,11 @@
 package dcb.core.component;
 
-import dcb.core.utils.Copyable;
+import dcb.components.ComponentFactoryArgs;
 
-public abstract class Component<State extends Copyable<State>> implements Runnable {
-    protected final ComponentData<State> data;
+public abstract class Component implements Runnable {
+    protected final ComponentFactoryArgs args;
 
-    protected Component(ComponentData<State> data) {
-        this.data = data;
+    protected Component(ComponentFactoryArgs args) {
+        this.args = args;
     }
 }

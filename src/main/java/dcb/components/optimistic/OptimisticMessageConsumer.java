@@ -1,46 +1,46 @@
 package dcb.components.optimistic;
 
-import dcb.core.component.ComponentData;
+import dcb.components.ComponentFactoryArgs;
+import dcb.core.component.State;
+import dcb.core.exceptions.DcbException;
 import dcb.core.gateway.Gateway;
 import dcb.core.messaging.MessageQueue;
 import dcb.core.messaging.Messenger;
 import dcb.core.models.Message;
 import dcb.core.synchronization.RollbackManager;
-import dcb.core.utils.Copyable;
 import dcb.core.utils.Pair;
 
 import java.util.List;
 import java.util.Set;
 
-class OptimisticMessageConsumer<State extends Copyable<State>> implements Runnable {
+@SuppressWarnings("InfiniteLoopStatement")
+class OptimisticMessageConsumer implements Runnable {
     private static final double CHECKPOINTING_PROBABILITY = 0.5;
     private final MessageQueue messageQueue;
     private final Messenger messenger;
-    private final Gateway<State> gateway;
-    private final ComponentData<State> componentData;
+    private final Gateway gateway;
     private final List<Message> initialMessages;
-    private final RollbackManager<State> rollbackManager;
+    private final RollbackManager rollbackManager;
 
     OptimisticMessageConsumer(MessageQueue messageQueue,
-                              Gateway<State> gateway,
-                              ComponentData<State> componentData) {
+                              Gateway gateway,
+                              ComponentFactoryArgs componentFactoryArgs) {
         this.messageQueue = messageQueue;
-        this.messenger = componentData.messenger;
+        this.messenger = componentFactoryArgs.messenger;
         this.gateway = gateway;
-        this.componentData = componentData;
 
         Pair<State, List<Message>> initialValues = gateway.init();
         State initialState = initialValues.first;
 
         this.initialMessages = initialValues.second;
-        this.rollbackManager = new RollbackManager<>(componentData.id, initialState);
+        this.rollbackManager = new RollbackManager(componentFactoryArgs.id, initialState);
     }
 
     @Override
     public void run() {
         try {
-            for (Message m : initialMessages) {
-                messenger.send(m);
+            for (Message message : initialMessages) {
+                messenger.send(message);
             }
 
             while (true) {
@@ -53,7 +53,7 @@ class OptimisticMessageConsumer<State extends Copyable<State>> implements Runnab
         }
     }
 
-    private void onMessage(Message message) throws Exception {
+    private void onMessage(Message message) throws InterruptedException, DcbException {
         boolean violatesLcc = message.execTs < rollbackManager.getLvt();
         if (violatesLcc) {
             Set<Message> messages = rollbackManager.rollback(message.execTs);
@@ -74,13 +74,14 @@ class OptimisticMessageConsumer<State extends Copyable<State>> implements Runnab
             rollbackManager.takeCheckpoint();
         }
 
-        for (Message m : messages) {
-            rollbackManager.saveMessage(m);
-            messenger.send(m);
+        for (Message msg : messages) {
+            rollbackManager.saveMessage(msg);
+            messenger.send(msg);
         }
     }
 
     private static boolean shouldTakeCheckpoint() {
+        //noinspection UnsecureRandomNumberGeneration
         return Math.random() < CHECKPOINTING_PROBABILITY;
     }
 }

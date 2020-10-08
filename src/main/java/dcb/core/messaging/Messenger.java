@@ -9,11 +9,11 @@ import dcb.core.utils.Pair;
 import java.util.Map;
 
 public class Messenger {
-    private final Map<Long, BlockingQueueSender<Message>> localSenders;
-    private final Map<Long, NetworkAddress> remoteAddrs;
+    private final Map<Integer, BlockingQueueSender<Message>> localSenders;
+    private final Map<Integer, NetworkAddress> remoteAddrs;
     private final BlockingQueueSender<Pair<Message, NetworkAddress>> networkSender;
 
-    public Messenger(Map<Long, BlockingQueueSender<Message>> localSenders, Map<Long, NetworkAddress> remoteAddrs, BlockingQueueSender<Pair<Message, NetworkAddress>> networkSender) {
+    public Messenger(Map<Integer, BlockingQueueSender<Message>> localSenders, Map<Integer, NetworkAddress> remoteAddrs, BlockingQueueSender<Pair<Message, NetworkAddress>> networkSender) {
         this.localSenders = localSenders;
         this.remoteAddrs = remoteAddrs;
         this.networkSender = networkSender;
@@ -40,7 +40,7 @@ public class Messenger {
         sendWithOption(message, false);
     }
 
-    public void sendLocally(Message message, long id) throws DcbException, InterruptedException {
+    public void sendLocally(Message message) throws DcbException, InterruptedException {
         sendWithOption(message, true);
     }
 }

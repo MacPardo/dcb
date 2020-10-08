@@ -1,6 +1,6 @@
 package dcb.core.utils;
 
-public class Pair<First, Second> {
+public class Pair<First ,Second> {
     public final First first;
     public final Second second;
 
@@ -8,12 +8,8 @@ public class Pair<First, Second> {
         this.first = first;
         this.second = second;
     }
-
-    @Override
-    public String toString() {
-        return "Pair{" +
-                "first=" + first +
-                ", second=" + second +
-                '}';
-    }
 }
+
+/*
+public record Pair<First, Second>(First first, Second second) {}
+*/

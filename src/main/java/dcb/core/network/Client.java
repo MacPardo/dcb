@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings({"InfiniteLoopStatement", "IOResourceOpenedButNotSafelyClosed", "SocketOpenedButNotSafelyClosed"})
 public class Client implements Runnable {
     private final BlockingQueueReceiver<Pair<Message, NetworkAddress>> receiver;
 
@@ -23,7 +24,7 @@ public class Client implements Runnable {
                 final var pair = receiver.poll(1L, TimeUnit.DAYS);
                 final var message = pair.first;
                 final var address = pair.second;
-                final var client = new Socket(address.host(), address.port());
+                final var client = new Socket(address.host, address.port);
                 final var outputStream = new ObjectOutputStream(client.getOutputStream());
                 outputStream.writeObject(message);
                 outputStream.close();

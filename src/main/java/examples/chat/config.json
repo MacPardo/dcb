@@ -1,7 +1,6 @@
 {
   "processes": [
     {
-      "name": "first_process",
       "networkPort": 8080,
       "ip": "127.0.0.1",
       "components": [
@@ -18,7 +17,6 @@
       ]
     },
     {
-      "name": "second_process",
       "networkPort": 8081,
       "ip": "127.0.0.1",
       "components": [

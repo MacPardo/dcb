@@ -1,8 +1,8 @@
 package examples.chat;
 
-import dcb.core.utils.Copyable;
+import dcb.core.component.State;
 
-public class ChatState implements Copyable<ChatState> {
+public class ChatState implements State {
     public final int counter;
 
     public ChatState(int counter) {
