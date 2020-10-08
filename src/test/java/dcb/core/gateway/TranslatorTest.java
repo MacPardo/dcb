@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.UUID;
 
-
 class TranslatorTest {
     @Test
     void translate() {

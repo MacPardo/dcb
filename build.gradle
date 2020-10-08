@@ -32,6 +32,7 @@ dependencies {
     // Use JUnit Jupiter Engine for testing.
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
     testCompile 'org.mockito:mockito-core:2.+'
+    testCompile 'org.mockito:mockito-junit-jupiter:2.+'
 }
 
 application {
