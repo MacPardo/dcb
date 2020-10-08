@@ -14,17 +14,17 @@ public class Message implements Serializable {
     public final int to;
     public final String payload;
     public final String route;
-    public final UUID id;
+    public final UUID uuid;
     public final boolean isAnti;
 
-    public Message(long sentTs, long execTs, int from, int to, String payload, String route, UUID id, boolean isAnti) {
+    public Message(long sentTs, long execTs, int from, int to, String payload, String route, UUID uuid, boolean isAnti) {
         this.sentTs = sentTs;
         this.execTs = execTs;
         this.from = from;
         this.to = to;
         this.payload = payload;
         this.route = route;
-        this.id = id;
+        this.uuid = uuid;
         this.isAnti = isAnti;
     }
 
@@ -40,12 +40,12 @@ public class Message implements Serializable {
                 isAnti == message.isAnti &&
                 Objects.equals(payload, message.payload) &&
                 Objects.equals(route, message.route) &&
-                Objects.equals(id, message.id);
+                Objects.equals(uuid, message.uuid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sentTs, execTs, from, to, payload, route, id, isAnti);
+        return Objects.hash(sentTs, execTs, from, to, payload, route, uuid, isAnti);
     }
 
     @Override
@@ -57,17 +57,17 @@ public class Message implements Serializable {
                 ", to=" + to +
                 ", payload='" + payload + '\'' +
                 ", route='" + route + '\'' +
-                ", id=" + id +
+                ", id=" + uuid +
                 ", isAnti=" + isAnti +
                 '}';
     }
 
     public Message getAnti() throws InvalidMessageException {
         if (isAnti) throw new InvalidMessageException();
-        return new Message(sentTs, execTs, from, to, payload, route, id, true);
+        return new Message(sentTs, execTs, from, to, payload, route, uuid, true);
     }
 
     public boolean isInverseOf(Message message) {
-        return id == message.id && isAnti != message.isAnti;
+        return uuid == message.uuid && isAnti != message.isAnti;
     }
 }

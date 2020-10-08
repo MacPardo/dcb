@@ -13,7 +13,7 @@ import dcb.core.utils.Pair;
 import java.util.List;
 import java.util.Set;
 
-@SuppressWarnings("InfiniteLoopStatement")
+@SuppressWarnings({"InfiniteLoopStatement", "CallToSystemExit"})
 class OptimisticMessageConsumer implements Runnable {
     private static final double CHECKPOINTING_PROBABILITY = 0.5;
     private final MessageQueue messageQueue;
@@ -29,7 +29,13 @@ class OptimisticMessageConsumer implements Runnable {
         this.messenger = componentFactoryArgs.messenger;
         this.gateway = gateway;
 
-        Pair<State, List<Message>> initialValues = gateway.init();
+        Pair<State, List<Message>> initialValues = null;
+        try {
+            initialValues = gateway.init();
+        } catch (DcbException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
         State initialState = initialValues.first;
 
         this.initialMessages = initialValues.second;

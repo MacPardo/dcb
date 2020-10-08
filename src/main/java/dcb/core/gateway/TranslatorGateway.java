@@ -2,10 +2,12 @@ package dcb.core.gateway;
 
 import dcb.core.component.ComponentCore;
 import dcb.core.component.State;
+import dcb.core.exceptions.DcbException;
 import dcb.core.models.Message;
 import dcb.core.models.MessageCore;
 import dcb.core.utils.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,14 +20,17 @@ public class TranslatorGateway implements Gateway {
         this.componentCore = componentCore;
     }
 
-    private List<Message> translateList(List<MessageCore> list, long sentTs) {
-        return list.stream()
-                .map(messageCore -> translator.translate(messageCore, sentTs))
-                .collect(Collectors.toList());
+    private List<Message> translateList(List<MessageCore> list, long sentTs) throws DcbException {
+        List<Message> result = new ArrayList<>();
+        for (MessageCore messageCore : list) {
+            Message translate = translator.translate(messageCore, sentTs);
+            result.add(translate);
+        }
+        return result;
     }
 
     @Override
-    public Pair<State, List<Message>> init() {
+    public Pair<State, List<Message>> init() throws DcbException {
         Pair<State, List<MessageCore>> initial = componentCore.init();
         State initialState = initial.first;
         List<Message> translatedMessages = translateList(initial.second, 0L);
@@ -33,7 +38,7 @@ public class TranslatorGateway implements Gateway {
     }
 
     @Override
-    public Pair<State, List<Message>> onMessage(State state, Message message) {
+    public Pair<State, List<Message>> onMessage(State state, Message message) throws DcbException {
         MessageCore messageCore = MessageCore.fromMessage(message);
         Pair<State, List<MessageCore>> result = componentCore.onMessage(state, messageCore);
         State newState = result.first;

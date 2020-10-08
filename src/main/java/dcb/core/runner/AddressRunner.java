@@ -13,6 +13,7 @@ import dcb.core.network.Server;
 import dcb.core.utils.BlockingQueueReceiver;
 import dcb.core.utils.BlockingQueueSender;
 import dcb.core.utils.Pair;
+import dcb.core.utils.UUIDGeneratorImpl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +72,7 @@ public class AddressRunner implements Runnable {
                     info.core,
                     receiver,
                     messenger,
-                    new Translator(id, connections)
+                    new Translator(id, connections, new UUIDGeneratorImpl())
             ));
             final var thread = new Thread(component);
             thread.start();
