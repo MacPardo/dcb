@@ -9,7 +9,6 @@ import dcb.core.utils.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TranslatorGateway implements Gateway {
     private final Translator translator;
@@ -49,8 +48,8 @@ public class TranslatorGateway implements Gateway {
     @Override
     public String toString() {
         return "TranslatorGateway{" +
-                "translator=" + translator +
-                ", componentCore=" + componentCore +
-                '}';
+               "translator=" + translator +
+               ", componentCore=" + componentCore +
+               '}';
     }
 }

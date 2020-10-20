@@ -39,9 +39,10 @@ public class RollbackManager {
     }
 
     private static <T> T last(List<T> list) {
+        if (list.isEmpty()) //noinspection ReturnOfNull
+            return null;
         return list.get(list.size() - 1);
     }
-
     private static <T> void removeLast(List<T> list) {
         list.remove(list.size() - 1);
     }
@@ -55,6 +56,7 @@ public class RollbackManager {
 
     public void saveMessage(Message message) throws InvalidMessageException, TimeViolationException {
         if (message.from != id && message.to != id || message.isAnti) {
+            System.out.println("you are trying to save an anti message!");
             throw new InvalidMessageException();
         }
 
@@ -73,7 +75,9 @@ public class RollbackManager {
         }
     }
 
-    public Set<Message> rollback(long timestamp) throws TimeViolationException, InsufficientCheckpointsException, InvalidMessageException {
+    @SuppressWarnings("OverlyLongMethod")
+    public Set<Message> rollback(long timestamp) throws TimeViolationException, InsufficientCheckpointsException {
+        System.out.println("rolling back from " + lvt + " to " + timestamp);
         Set<Message> toBeSent = new HashSet<>(INITIAL_CAPACITY);
 
         if (timestamp > lvt) {
@@ -91,11 +95,13 @@ public class RollbackManager {
             if (lastCheckpoint.timestamp > timestamp) {
                 removeLast(checkpoints);
             } else {
-                lvt = lastCheckpoint.timestamp;
-                state = lastCheckpoint.state;
+                this.lvt = lastCheckpoint.timestamp;
+                this.state = lastCheckpoint.state;
                 break;
             }
         }
+
+        System.out.println("actually rolled back to " + lvt);
 
         while (!receivedMessages.isEmpty()) {
             Message lastMessage = last(receivedMessages);
@@ -113,7 +119,7 @@ public class RollbackManager {
             if (lastMessage.sentTs > timestamp) {
                 break;
             }
-            toBeSent.add(lastMessage.getAnti());
+            toBeSent.add(lastMessage.getInverse());
             removeLast(sentMessages);
         }
 

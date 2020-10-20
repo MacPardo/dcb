@@ -1,4 +1,4 @@
-package examples.chat;
+package dcb.examples.chat;
 
 import dcb.core.component.State;
 

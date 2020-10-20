@@ -11,7 +11,7 @@ public class MessageQueue {
     private final Semaphore queueSizeSemaphore = new Semaphore(0, true);
     private final Semaphore mutex = new Semaphore(1, true);
 
-    public void push(Message message) throws InterruptedException, InvalidMessageException {
+    public void push(Message message) throws InterruptedException {
         mutex.acquire();
         try {
             messageQueueBase.push(message);
@@ -28,5 +28,14 @@ public class MessageQueue {
         mutex.release();
         if (message == null) throw new DcbException();
         return message;
+    }
+
+    public long peekTimestamp() throws InterruptedException {
+        queueSizeSemaphore.acquire();
+        mutex.acquire();
+        Long timestamp = messageQueueBase.peekTimestamp();
+        mutex.release();
+        queueSizeSemaphore.release();
+        return timestamp;
     }
 }

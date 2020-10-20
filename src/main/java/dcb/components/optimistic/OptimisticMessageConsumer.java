@@ -10,6 +10,8 @@ import dcb.core.models.Message;
 import dcb.core.synchronization.RollbackManager;
 import dcb.core.utils.Pair;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 
@@ -59,13 +61,27 @@ class OptimisticMessageConsumer implements Runnable {
         }
     }
 
+    private static void printTime() {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss:SSS");
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(dateTimeFormatter.format(now));
+    }
+
     private void onMessage(Message message) throws InterruptedException, DcbException {
+        System.out.print("on message: ");
+        printTime();
+        System.out.println("there are " + rollbackManager.getCheckpoints().size() + " checkpoints");
+
         boolean violatesLcc = message.execTs < rollbackManager.getLvt();
         if (violatesLcc) {
+            System.out.println("this message caused an LCC violation");
             Set<Message> messages = rollbackManager.rollback(message.execTs);
             for (Message message1 : messages) {
                 messenger.send(message1);
             }
+            return;
+        } else if (message.isAnti) {
+            System.out.println("I got an anti message that does not violate LCC");
         }
 
         rollbackManager.saveMessage(message);

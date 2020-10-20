@@ -34,13 +34,13 @@ public class Message implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Message message = (Message) o;
         return sentTs == message.sentTs &&
-                execTs == message.execTs &&
-                from == message.from &&
-                to == message.to &&
-                isAnti == message.isAnti &&
-                Objects.equals(payload, message.payload) &&
-                Objects.equals(route, message.route) &&
-                Objects.equals(uuid, message.uuid);
+               execTs == message.execTs &&
+               from == message.from &&
+               to == message.to &&
+               isAnti == message.isAnti &&
+               Objects.equals(payload, message.payload) &&
+               Objects.equals(route, message.route) &&
+               Objects.equals(uuid, message.uuid);
     }
 
     @Override
@@ -51,20 +51,19 @@ public class Message implements Serializable {
     @Override
     public String toString() {
         return "Message{" +
-                "sentTs=" + sentTs +
-                ", execTs=" + execTs +
-                ", from=" + from +
-                ", to=" + to +
-                ", payload='" + payload + '\'' +
-                ", route='" + route + '\'' +
-                ", id=" + uuid +
-                ", isAnti=" + isAnti +
-                '}';
+               "sentTs=" + sentTs +
+               ", execTs=" + execTs +
+               ", from=" + from +
+               ", to=" + to +
+               ", payload='" + payload + '\'' +
+               ", route='" + route + '\'' +
+               ", id=" + uuid +
+               ", isAnti=" + isAnti +
+               '}';
     }
 
-    public Message getAnti() throws InvalidMessageException {
-        if (isAnti) throw new InvalidMessageException();
-        return new Message(sentTs, execTs, from, to, payload, route, uuid, true);
+    public Message getInverse() {
+        return new Message(sentTs, execTs, from, to, payload, route, uuid, !isAnti);
     }
 
     public boolean isInverseOf(Message message) {
