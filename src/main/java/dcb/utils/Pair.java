@@ -2,7 +2,7 @@ package dcb.utils;
 
 import java.util.Objects;
 
-public class Pair<First ,Second> {
+public class Pair<First, Second> {
     public final First first;
     public final Second second;
 
@@ -17,7 +17,7 @@ public class Pair<First ,Second> {
         if (o == null || getClass() != o.getClass()) return false;
         Pair<?, ?> pair = (Pair<?, ?>) o;
         return Objects.equals(first, pair.first) &&
-                Objects.equals(second, pair.second);
+               Objects.equals(second, pair.second);
     }
 
     @Override
@@ -28,12 +28,8 @@ public class Pair<First ,Second> {
     @Override
     public String toString() {
         return "Pair{" +
-                "first=" + first +
-                ", second=" + second +
-                '}';
+               "first=" + first +
+               ", second=" + second +
+               '}';
     }
 }
-
-/*
-public record Pair<First, Second>(First first, Second second) {}
-*/
