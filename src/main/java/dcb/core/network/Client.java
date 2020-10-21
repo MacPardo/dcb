@@ -2,8 +2,8 @@ package dcb.core.network;
 
 import dcb.core.models.Message;
 import dcb.core.models.NetworkAddress;
-import dcb.core.utils.BlockingQueueReceiver;
-import dcb.core.utils.Pair;
+import dcb.utils.BlockingQueueReceiver;
+import dcb.utils.Pair;
 
 import java.io.ObjectOutputStream;
 import java.net.Socket;

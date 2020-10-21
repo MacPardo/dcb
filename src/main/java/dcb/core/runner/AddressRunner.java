@@ -2,18 +2,18 @@ package dcb.core.runner;
 
 import dcb.components.ComponentFactory;
 import dcb.components.ComponentFactoryArgs;
-import dcb.core.gateway.Translator;
-import dcb.core.messaging.Messenger;
+import dcb.core.Translator;
+import dcb.core.Messenger;
 import dcb.core.models.ComponentInfo;
 import dcb.core.models.ComponentPort;
 import dcb.core.models.Message;
 import dcb.core.models.NetworkAddress;
 import dcb.core.network.Client;
 import dcb.core.network.Server;
-import dcb.core.utils.BlockingQueueReceiver;
-import dcb.core.utils.BlockingQueueSender;
-import dcb.core.utils.Pair;
-import dcb.core.utils.UUIDGeneratorImpl;
+import dcb.utils.BlockingQueueReceiver;
+import dcb.utils.BlockingQueueSender;
+import dcb.utils.Pair;
+import dcb.utils.UUIDGeneratorImpl;
 
 import java.util.HashMap;
 import java.util.List;

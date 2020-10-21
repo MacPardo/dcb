@@ -1,7 +1,5 @@
 package dcb.core.models;
 
-import dcb.core.exceptions.InvalidMessageException;
-
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;

@@ -1,6 +1,6 @@
 package dcb.examples.chat;
 
-import dcb.core.component.State;
+import dcb.core.State;
 
 public class ChatState implements State {
     public final int counter;

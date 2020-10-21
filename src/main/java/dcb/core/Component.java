@@ -1,4 +1,4 @@
-package dcb.core.component;
+package dcb.core;
 
 import dcb.components.ComponentFactoryArgs;
 

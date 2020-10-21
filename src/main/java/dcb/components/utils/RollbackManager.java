@@ -1,9 +1,9 @@
-package dcb.core.synchronization;
+package dcb.components.utils;
 
-import dcb.core.component.State;
-import dcb.core.exceptions.InsufficientCheckpointsException;
-import dcb.core.exceptions.InvalidMessageException;
-import dcb.core.exceptions.TimeViolationException;
+import dcb.core.State;
+import dcb.exceptions.InsufficientCheckpointsException;
+import dcb.exceptions.InvalidMessageException;
+import dcb.exceptions.TimeViolationException;
 import dcb.core.models.Checkpoint;
 import dcb.core.models.Message;
 

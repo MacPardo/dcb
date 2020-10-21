@@ -1,7 +1,5 @@
-package dcb.core.messaging;
+package dcb.components.utils;
 
-import dcb.core.exceptions.DcbException;
-import dcb.core.exceptions.InvalidMessageException;
 import dcb.core.models.Message;
 
 import java.util.Comparator;

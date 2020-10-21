@@ -1,7 +1,7 @@
 package dcb.components.rdtlgc;
 
 import dcb.components.ComponentFactoryArgs;
-import dcb.core.component.Component;
+import dcb.core.Component;
 
 public class RdtLgcComponent extends Component {
     public RdtLgcComponent(ComponentFactoryArgs args) {

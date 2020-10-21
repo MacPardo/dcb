@@ -1,6 +1,6 @@
 package dcb.core.gateway;
 
-import dcb.core.utils.UUIDGenerator;
+import dcb.utils.UUIDGenerator;
 
 import java.util.UUID;
 

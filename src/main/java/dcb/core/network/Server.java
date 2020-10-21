@@ -1,6 +1,6 @@
 package dcb.core.network;
 
-import dcb.core.messaging.Messenger;
+import dcb.core.Messenger;
 import dcb.core.models.Message;
 
 import java.io.ObjectInputStream;

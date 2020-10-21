@@ -1,6 +1,6 @@
-package dcb.core.synchronization;
+package dcb.components.utils;
 
-import dcb.core.exceptions.DcbException;
+import dcb.exceptions.DcbException;
 
 import java.util.HashMap;
 import java.util.Map;

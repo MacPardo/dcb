@@ -1,10 +1,10 @@
-package dcb.core.messaging;
+package dcb.core;
 
-import dcb.core.exceptions.DcbException;
+import dcb.exceptions.DcbException;
 import dcb.core.models.Message;
 import dcb.core.models.NetworkAddress;
-import dcb.core.utils.BlockingQueueSender;
-import dcb.core.utils.Pair;
+import dcb.utils.BlockingQueueSender;
+import dcb.utils.Pair;
 
 import java.util.Map;
 

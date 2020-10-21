@@ -1,10 +1,10 @@
 package dcb.components.optimistic;
 
-import dcb.core.component.Component;
+import dcb.core.Component;
 import dcb.components.ComponentFactoryArgs;
-import dcb.core.gateway.TranslatorGateway;
-import dcb.core.messaging.MessageQueue;
-import dcb.core.messaging.MessageQueueProducer;
+import dcb.core.TranslatorGateway;
+import dcb.components.utils.MessageQueue;
+import dcb.components.utils.MessageQueueProducer;
 
 public class OptimisticComponent extends Component {
     public OptimisticComponent(ComponentFactoryArgs args) {

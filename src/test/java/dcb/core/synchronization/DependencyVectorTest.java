@@ -1,6 +1,7 @@
 package dcb.core.synchronization;
 
-import dcb.core.exceptions.DcbException;
+import dcb.components.utils.DependencyVector;
+import dcb.exceptions.DcbException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

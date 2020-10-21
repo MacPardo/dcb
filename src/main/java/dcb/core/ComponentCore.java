@@ -1,7 +1,7 @@
-package dcb.core.component;
+package dcb.core;
 
 import dcb.core.models.MessageCore;
-import dcb.core.utils.Pair;
+import dcb.utils.Pair;
 
 import java.util.List;
 

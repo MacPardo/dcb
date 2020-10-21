@@ -1,9 +1,9 @@
 package dcb.examples.chat;
 
-import dcb.core.component.ComponentCore;
-import dcb.core.component.State;
+import dcb.core.ComponentCore;
+import dcb.core.State;
 import dcb.core.models.MessageCore;
-import dcb.core.utils.Pair;
+import dcb.utils.Pair;
 
 import java.util.ArrayList;
 import java.util.List;

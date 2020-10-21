@@ -1,10 +1,11 @@
 package dcb.core.messaging;
 
-import dcb.core.exceptions.DcbException;
+import dcb.core.Messenger;
+import dcb.exceptions.DcbException;
 import dcb.core.models.Message;
 import dcb.core.models.NetworkAddress;
-import dcb.core.utils.BlockingQueueSender;
-import dcb.core.utils.Pair;
+import dcb.utils.BlockingQueueSender;
+import dcb.utils.Pair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

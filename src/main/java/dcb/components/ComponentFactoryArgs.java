@@ -1,10 +1,10 @@
 package dcb.components;
 
-import dcb.core.component.ComponentCore;
-import dcb.core.gateway.Translator;
-import dcb.core.messaging.Messenger;
+import dcb.core.ComponentCore;
+import dcb.core.Translator;
+import dcb.core.Messenger;
 import dcb.core.models.Message;
-import dcb.core.utils.BlockingQueueReceiver;
+import dcb.utils.BlockingQueueReceiver;
 
 import java.util.Objects;
 

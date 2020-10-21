@@ -1,6 +1,7 @@
 package dcb.core.gateway;
 
-import dcb.core.exceptions.DcbException;
+import dcb.core.Translator;
+import dcb.exceptions.DcbException;
 import dcb.core.models.ComponentPort;
 import dcb.core.models.Message;
 import dcb.core.models.MessageCore;

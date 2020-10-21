@@ -3,7 +3,7 @@ package dcb.components;
 import dcb.components.optimistic.OptimisticComponent;
 import dcb.components.probcheckpoints.ProbabilisticCheckpointComponent;
 import dcb.components.rdtlgc.RdtLgcComponent;
-import dcb.core.component.Component;
+import dcb.core.Component;
 
 public class ComponentFactory {
     public static Component createComponent(

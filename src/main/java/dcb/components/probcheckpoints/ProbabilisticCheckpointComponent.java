@@ -1,7 +1,7 @@
 package dcb.components.probcheckpoints;
 
 import dcb.components.ComponentFactoryArgs;
-import dcb.core.component.Component;
+import dcb.core.Component;
 
 public class ProbabilisticCheckpointComponent extends Component {
     public ProbabilisticCheckpointComponent(ComponentFactoryArgs args) {

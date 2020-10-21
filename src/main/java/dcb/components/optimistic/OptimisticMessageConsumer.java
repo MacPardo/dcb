@@ -1,14 +1,14 @@
 package dcb.components.optimistic;
 
 import dcb.components.ComponentFactoryArgs;
-import dcb.core.component.State;
-import dcb.core.exceptions.DcbException;
-import dcb.core.gateway.Gateway;
-import dcb.core.messaging.MessageQueue;
-import dcb.core.messaging.Messenger;
+import dcb.core.State;
+import dcb.exceptions.DcbException;
+import dcb.core.Gateway;
+import dcb.components.utils.MessageQueue;
+import dcb.core.Messenger;
 import dcb.core.models.Message;
-import dcb.core.synchronization.RollbackManager;
-import dcb.core.utils.Pair;
+import dcb.components.utils.RollbackManager;
+import dcb.utils.Pair;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

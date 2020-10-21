@@ -1,4 +1,4 @@
-package dcb.core.utils;
+package dcb.utils;
 
 import java.util.concurrent.BlockingQueue;
 

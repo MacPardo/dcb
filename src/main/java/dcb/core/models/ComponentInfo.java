@@ -1,7 +1,7 @@
 package dcb.core.models;
 
 import dcb.components.ComponentType;
-import dcb.core.component.ComponentCore;
+import dcb.core.ComponentCore;
 
 import java.util.Objects;
 

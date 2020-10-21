@@ -1,11 +1,9 @@
-package dcb.core.gateway;
+package dcb.core;
 
-import dcb.core.component.ComponentCore;
-import dcb.core.component.State;
-import dcb.core.exceptions.DcbException;
+import dcb.exceptions.DcbException;
 import dcb.core.models.Message;
 import dcb.core.models.MessageCore;
-import dcb.core.utils.Pair;
+import dcb.utils.Pair;
 
 import java.util.ArrayList;
 import java.util.List;

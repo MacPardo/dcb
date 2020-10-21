@@ -1,10 +1,10 @@
-package dcb.core.gateway;
+package dcb.core;
 
-import dcb.core.exceptions.DcbException;
+import dcb.exceptions.DcbException;
 import dcb.core.models.ComponentPort;
 import dcb.core.models.Message;
 import dcb.core.models.MessageCore;
-import dcb.core.utils.UUIDGenerator;
+import dcb.utils.UUIDGenerator;
 
 import java.util.Map;
 
@@ -21,7 +21,7 @@ public class Translator {
         this.uuidGenerator = uuidGenerator;
     }
 
-    Message translate(MessageCore messageCore, long sentTs) throws DcbException {
+    public Message translate(MessageCore messageCore, long sentTs) throws DcbException {
         final var localPort = new ComponentPort(localId, messageCore.port);
         final var destination = connections.get(localPort);
         if (destination == null) {
