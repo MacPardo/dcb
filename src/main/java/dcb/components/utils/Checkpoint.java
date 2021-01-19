@@ -1,4 +1,4 @@
-package dcb.core.models;
+package dcb.components.utils;
 
 import java.util.Objects;
 

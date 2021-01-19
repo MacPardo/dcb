@@ -1,16 +1,16 @@
 package dcb.components.utils;
 
 import dcb.core.models.Message;
-import dcb.utils.BlockingQueueReceiver;
+import dcb.utils.Receiver;
 
 import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("InfiniteLoopStatement")
 public class MessageQueueProducer implements Runnable {
     private final MessageQueue queue;
-    private final BlockingQueueReceiver<Message> receiver;
+    private final Receiver<Message> receiver;
 
-    public MessageQueueProducer(MessageQueue queue, BlockingQueueReceiver<Message> receiver) {
+    public MessageQueueProducer(MessageQueue queue, Receiver<Message> receiver) {
         this.queue = queue;
         this.receiver = receiver;
     }

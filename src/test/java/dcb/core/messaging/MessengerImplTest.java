@@ -1,10 +1,10 @@
 package dcb.core.messaging;
 
-import dcb.core.Messenger;
+import dcb.core.MessengerImpl;
 import dcb.exceptions.DcbException;
 import dcb.core.models.Message;
 import dcb.core.models.NetworkAddress;
-import dcb.utils.BlockingQueueSender;
+import dcb.utils.Sender;
 import dcb.utils.Pair;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
-class MessengerTest {
+class MessengerImplTest {
     static final int SELF_ID = 10;
     static final int REMOTE_ID = 1;
     static final int LOCAL_ID = 2;
@@ -33,12 +33,12 @@ class MessengerTest {
     }
 
     @Mock
-    private BlockingQueueSender<Pair<Message, NetworkAddress>> networkSenderMock;
+    private Sender<Pair<Message, NetworkAddress>> networkSenderMock;
 
     @Mock
-    private BlockingQueueSender<Message> localSenderMock;
+    private Sender<Message> localSenderMock;
 
-    private Messenger messenger = null;
+    private MessengerImpl messenger = null;
 
     private static Message messageFor(int target) {
         return new Message(0L, 0L, SELF_ID, target, "", "", uuid, false);
@@ -46,9 +46,9 @@ class MessengerTest {
 
     @BeforeEach
     void setUp() {
-        var localSenders = new HashMap<Integer, BlockingQueueSender<Message>>();
+        var localSenders = new HashMap<Integer, Sender<Message>>();
         localSenders.put(LOCAL_ID, localSenderMock);
-        messenger = new Messenger(
+        messenger = new MessengerImpl(
                 localSenders,
                 addresses,
                 networkSenderMock

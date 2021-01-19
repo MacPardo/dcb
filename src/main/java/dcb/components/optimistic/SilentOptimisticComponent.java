@@ -1,9 +1,9 @@
 package dcb.components.optimistic;
 
+import dcb.components.ComponentFactoryArgs;
 import dcb.components.utils.MessageQueueBase;
 import dcb.components.utils.RollbackManager;
 import dcb.core.Component;
-import dcb.components.ComponentFactoryArgs;
 import dcb.core.Gateway;
 import dcb.core.State;
 import dcb.core.TranslatorGateway;
@@ -15,13 +15,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-@SuppressWarnings({"InfiniteLoopStatement", "MagicNumber", "UnsecureRandomNumberGeneration"})
-public class OptimisticComponent extends Component {
+public class SilentOptimisticComponent extends Component {
     private final MessageQueueBase messageQueue = new MessageQueueBase();
     private Gateway gateway;
     private RollbackManager rollbackManager;
 
-    public OptimisticComponent(ComponentFactoryArgs args) {
+    public SilentOptimisticComponent(ComponentFactoryArgs args) {
         super(args);
         gateway = new TranslatorGateway(args.translator, args.core);
     }
@@ -56,16 +55,12 @@ public class OptimisticComponent extends Component {
             if (messageQueue.canPeekTimestamp()) {
                 boolean violates = isThereLCCViolation();
                 if (violates) {
-                    System.out.println("rolling back to " + messageQueue.peekTimestamp());
                     Collection<Message> messages = rollbackManager.rollback(messageQueue.peekTimestamp());
-                    System.out.println("rolled back to " + rollbackManager.getLvt());
                     for (Message m : messages) {
                         args.messenger.send(m);
                     }
                 } else if (messageQueue.canPop()) {
                     onMessage(messageQueue.pop());
-                } else {
-                    System.out.println("???");
                 }
             }
         }
@@ -76,7 +71,6 @@ public class OptimisticComponent extends Component {
     }
 
     void onMessage(Message message) throws DcbException, InterruptedException {
-        System.out.println("got message " + message);
         rollbackManager.saveMessage(message);
         long timestamp = message.execTs;
         Pair<State, List<Message>> values = gateway.onMessage(rollbackManager.getState(), message);
@@ -95,6 +89,7 @@ public class OptimisticComponent extends Component {
     }
 
     static boolean shouldTakeCheckpoint() {
-        return true;
+        return Math.random() < 0.5;
     }
+
 }

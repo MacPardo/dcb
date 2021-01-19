@@ -20,7 +20,6 @@ public class Runner implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("inside runner");
         verifyConnections();
 
         final var addressSet = new HashSet<NetworkAddress>();
@@ -33,7 +32,6 @@ public class Runner implements Runnable {
         }
 
         for (NetworkAddress networkAddress : addressSet) {
-            System.out.println("networkAddress " + networkAddress);
             var thread = new Thread(new AddressRunner(
                     networkAddress,
                     componentInfoList,
@@ -61,8 +59,6 @@ public class Runner implements Runnable {
             var receiverType = findWithId(receiverPort.componentId).type;
 
             if (!senderType.canSendMessagesTo(receiverType)) {
-                System.out.println("CONNECTIONS ARE NOT VALID");
-                System.out.println(senderType + " cannot send messages to " + receiverType);
                 //noinspection CallToSystemExit
                 System.exit(1);
             }

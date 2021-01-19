@@ -1,10 +1,10 @@
 package dcb.core.gateway;
 
-import dcb.core.Translator;
+import dcb.core.TranslatorImpl;
 import dcb.exceptions.DcbException;
 import dcb.core.models.ComponentPort;
 import dcb.core.models.Message;
-import dcb.core.models.MessageCore;
+import dcb.core.models.BehaviorMessage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -29,9 +29,9 @@ class TranslatorTest {
 
         var uuid = UUID.randomUUID();
         var mock = new UUIDGeneratorMock(uuid);
-        var translator = new Translator(localId, connections, mock);
+        var translator = new TranslatorImpl(localId, connections, mock);
 
-        var firstMsgCore = new MessageCore(payload, outputPort, execTs);
+        var firstMsgCore = new BehaviorMessage(payload, outputPort, execTs);
         Message firstTranslated = null;
         try {
             firstTranslated = translator.translate(firstMsgCore, sentTs);
@@ -54,7 +54,7 @@ class TranslatorTest {
         );
 
         // test an exception is thrown when the port is not configured to send messages
-        var secondMsgCore = new MessageCore(payload, inputPort, execTs);
+        var secondMsgCore = new BehaviorMessage(payload, inputPort, execTs);
         Assertions.assertThrows(
                 DcbException.class,
                 () -> translator.translate(secondMsgCore, sentTs)

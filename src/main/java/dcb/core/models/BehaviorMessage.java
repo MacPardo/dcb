@@ -2,26 +2,26 @@ package dcb.core.models;
 
 import java.util.Objects;
 
-public class MessageCore {
+public class BehaviorMessage {
     public final String payload;
     public final String port;
     public final long execTs;
 
-    public MessageCore(String payload, String port, long execTs) {
+    public BehaviorMessage(String payload, String port, long execTs) {
         this.payload = payload;
         this.port = port;
         this.execTs = execTs;
     }
 
-    public static MessageCore fromMessage(Message message) {
-        return new MessageCore(message.payload, message.route, message.execTs);
+    public static BehaviorMessage fromMessage(Message message) {
+        return new BehaviorMessage(message.payload, message.route, message.execTs);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MessageCore that = (MessageCore) o;
+        BehaviorMessage that = (BehaviorMessage) o;
         return execTs == that.execTs &&
                 Objects.equals(payload, that.payload) &&
                 Objects.equals(port, that.port);

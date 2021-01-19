@@ -1,6 +1,6 @@
 package dcb.core.network;
 
-import dcb.core.Messenger;
+import dcb.core.MessengerImpl;
 import dcb.core.models.Message;
 
 import java.io.ObjectInputStream;
@@ -15,9 +15,9 @@ import java.net.Socket;
 })
 public class Server implements Runnable {
     private final int port;
-    private final Messenger messenger;
+    private final MessengerImpl messenger;
 
-    public Server(int port, Messenger messenger) {
+    public Server(int port, MessengerImpl messenger) {
         this.port = port;
         this.messenger = messenger;
     }
@@ -29,7 +29,6 @@ public class Server implements Runnable {
             ServerSocket serverSocket = new ServerSocket(port);
             while (true) {
                 Socket client = serverSocket.accept();
-                System.out.println("Client connected: " + client.getInetAddress().getHostAddress());
                 ObjectInputStream inputStream = new ObjectInputStream(client.getInputStream());
                 Message message = (Message) inputStream.readObject();
                 inputStream.close();

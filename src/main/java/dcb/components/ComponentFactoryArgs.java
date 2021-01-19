@@ -1,22 +1,22 @@
 package dcb.components;
 
-import dcb.core.ComponentCore;
-import dcb.core.Translator;
-import dcb.core.Messenger;
+import dcb.core.Behavior;
+import dcb.core.TranslatorImpl;
+import dcb.core.MessengerImpl;
 import dcb.core.models.Message;
-import dcb.utils.BlockingQueueReceiver;
+import dcb.utils.Receiver;
 
 import java.util.Objects;
 
 
 public class ComponentFactoryArgs {
     public final int id;
-    public final ComponentCore core;
-    public final BlockingQueueReceiver<Message> receiver;
-    public final Messenger messenger;
-    public final Translator translator;
+    public final Behavior core;
+    public final Receiver<Message> receiver;
+    public final MessengerImpl messenger;
+    public final TranslatorImpl translator;
 
-    public ComponentFactoryArgs(int id, ComponentCore core, BlockingQueueReceiver<Message> receiver, Messenger messenger, Translator translator) {
+    public ComponentFactoryArgs(int id, Behavior core, Receiver<Message> receiver, MessengerImpl messenger, TranslatorImpl translator) {
         this.id = id;
         this.core = core;
         this.receiver = receiver;

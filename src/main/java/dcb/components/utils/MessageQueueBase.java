@@ -9,21 +9,42 @@ import java.util.Queue;
 public class MessageQueueBase {
     private static final int INITIAL_CAPACITY = 0xFF;
     private static final Comparator<Message> comparator = (m1, m2) -> Long.compare(m2.execTs, m1.execTs);
-    private final PriorityQueue<Message> regularQueue = new PriorityQueue<>(
+    public final PriorityQueue<Message> regularQueue = new PriorityQueue<>(
             INITIAL_CAPACITY,
             comparator
     );
-    private final Queue<Message> antiQueue = new PriorityQueue<>(
+    public final Queue<Message> antiQueue = new PriorityQueue<>(
             INITIAL_CAPACITY,
             comparator
     );
 
+    public boolean canPop() {
+        return !regularQueue.isEmpty();
+    }
+
+    // Returns the difference in the number of regular messages after performing the operation
     public void push(Message message) {
         Message inverse = message.getInverse();
 
+        if (message.isAnti) {
+            if (regularQueue.contains(inverse)) {
+                regularQueue.remove(inverse);
+            } else {
+                antiQueue.add(message);
+            }
+        } else {
+            if (antiQueue.contains(inverse)) {
+                antiQueue.remove(inverse);
+            } else {
+                regularQueue.add(message);
+            }
+        }
+
+        /*
         Queue<Message> targetQueue;
         Queue<Message> inverseQueue;
-        if (message.isAnti) {
+
+        if (!message.isAnti) {
             targetQueue = regularQueue;
             inverseQueue = antiQueue;
         } else {
@@ -35,7 +56,7 @@ public class MessageQueueBase {
             inverseQueue.remove(inverse);
         } else {
             targetQueue.add(message);
-        }
+        }*/
     }
 
     /**
@@ -48,9 +69,18 @@ public class MessageQueueBase {
 
     public Long peekTimestamp() {
         if (regularQueue.peek() != null && antiQueue.peek() != null) {
-            return Math.max(regularQueue.peek().execTs, antiQueue.peek().execTs);
+            return Math.min(regularQueue.peek().execTs, antiQueue.peek().execTs);
+        } else if (regularQueue.peek() != null) {
+            return regularQueue.peek().execTs;
+        } else if (antiQueue.peek() != null) {
+            return antiQueue.peek().execTs;
+        } else {
+            //noinspection ReturnOfNull
+            return null;
         }
-        //noinspection ReturnOfNull
-        return null;
+    }
+
+    public boolean canPeekTimestamp() {
+        return regularQueue.peek() != null || antiQueue.peek() != null;
     }
 }

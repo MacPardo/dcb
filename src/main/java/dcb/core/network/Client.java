@@ -2,7 +2,7 @@ package dcb.core.network;
 
 import dcb.core.models.Message;
 import dcb.core.models.NetworkAddress;
-import dcb.utils.BlockingQueueReceiver;
+import dcb.utils.Receiver;
 import dcb.utils.Pair;
 
 import java.io.ObjectOutputStream;
@@ -11,9 +11,9 @@ import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings({"InfiniteLoopStatement", "IOResourceOpenedButNotSafelyClosed", "SocketOpenedButNotSafelyClosed"})
 public class Client implements Runnable {
-    private final BlockingQueueReceiver<Pair<Message, NetworkAddress>> receiver;
+    private final Receiver<Pair<Message, NetworkAddress>> receiver;
 
-    public Client(BlockingQueueReceiver<Pair<Message, NetworkAddress>> receiver) {
+    public Client(Receiver<Pair<Message, NetworkAddress>> receiver) {
         this.receiver = receiver;
     }
 

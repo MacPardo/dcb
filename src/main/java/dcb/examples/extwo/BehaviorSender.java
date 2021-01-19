@@ -1,15 +1,15 @@
 package dcb.examples.extwo;
 
-import dcb.core.ComponentCore;
+import dcb.core.Behavior;
 import dcb.core.State;
-import dcb.core.models.MessageCore;
+import dcb.core.models.BehaviorMessage;
 import dcb.utils.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("ALL")
-public class ComponentCoreSender implements ComponentCore {
+public class BehaviorSender implements Behavior {
     public static final String OUTPUT = "output";
     public static final String MYSELF = "myself";
 
@@ -20,21 +20,21 @@ public class ComponentCoreSender implements ComponentCore {
         }
     }
 
-    private static List<MessageCore> getMessages() {
+    private static List<BehaviorMessage> getMessages() {
         var ts = (long) (Math.random() * 1000);
-        var msgs= new ArrayList<MessageCore>();
-        msgs.add(new MessageCore("", OUTPUT, ts));
-        msgs.add(new MessageCore("", MYSELF, 0));
+        var msgs= new ArrayList<BehaviorMessage>();
+        msgs.add(new BehaviorMessage("", OUTPUT, ts));
+        msgs.add(new BehaviorMessage("", MYSELF, 0));
         return msgs;
     }
 
     @Override
-    public Pair<State, List<MessageCore>> init() {
+    public Pair<State, List<BehaviorMessage>> init() {
         return new Pair<>(new MyState(), getMessages());
     }
 
     @Override
-    public Pair<State, List<MessageCore>> onMessage(State state, MessageCore message) {
+    public Pair<State, List<BehaviorMessage>> onMessage(State state, BehaviorMessage message) {
         return new Pair<>(new MyState(), getMessages());
     }
 }

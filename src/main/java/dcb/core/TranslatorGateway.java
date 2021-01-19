@@ -2,7 +2,7 @@ package dcb.core;
 
 import dcb.exceptions.DcbException;
 import dcb.core.models.Message;
-import dcb.core.models.MessageCore;
+import dcb.core.models.BehaviorMessage;
 import dcb.utils.Pair;
 
 import java.util.ArrayList;
@@ -10,17 +10,17 @@ import java.util.List;
 
 public class TranslatorGateway implements Gateway {
     private final Translator translator;
-    private final ComponentCore componentCore;
+    private final Behavior behavior;
 
-    public TranslatorGateway(Translator translator, ComponentCore componentCore) {
+    public TranslatorGateway(Translator translator, Behavior behavior) {
         this.translator = translator;
-        this.componentCore = componentCore;
+        this.behavior = behavior;
     }
 
-    private List<Message> translateList(List<MessageCore> list, long sentTs) throws DcbException {
+    private List<Message> translateList(List<BehaviorMessage> list, long sentTs) throws DcbException {
         List<Message> result = new ArrayList<>();
-        for (MessageCore messageCore : list) {
-            Message translate = translator.translate(messageCore, sentTs);
+        for (BehaviorMessage behaviorMessage : list) {
+            Message translate = translator.translate(behaviorMessage, sentTs);
             result.add(translate);
         }
         return result;
@@ -28,7 +28,7 @@ public class TranslatorGateway implements Gateway {
 
     @Override
     public Pair<State, List<Message>> init() throws DcbException {
-        Pair<State, List<MessageCore>> initial = componentCore.init();
+        Pair<State, List<BehaviorMessage>> initial = behavior.init();
         State initialState = initial.first;
         List<Message> translatedMessages = translateList(initial.second, 0L);
         return new Pair<>(initialState, translatedMessages);
@@ -36,8 +36,8 @@ public class TranslatorGateway implements Gateway {
 
     @Override
     public Pair<State, List<Message>> onMessage(State state, Message message) throws DcbException {
-        MessageCore messageCore = MessageCore.fromMessage(message);
-        Pair<State, List<MessageCore>> result = componentCore.onMessage(state, messageCore);
+        BehaviorMessage behaviorMessage = BehaviorMessage.fromMessage(message);
+        Pair<State, List<BehaviorMessage>> result = behavior.onMessage(state, behaviorMessage);
         State newState = result.first;
         List<Message> translatedMessages = translateList(result.second, message.execTs);
         return new Pair<>(newState, translatedMessages);
@@ -47,7 +47,7 @@ public class TranslatorGateway implements Gateway {
     public String toString() {
         return "TranslatorGateway{" +
                "translator=" + translator +
-               ", componentCore=" + componentCore +
+               ", componentCore=" + behavior +
                '}';
     }
 }

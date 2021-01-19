@@ -3,12 +3,14 @@ package dcb.components.utils;
 import dcb.exceptions.DcbException;
 import dcb.core.models.Message;
 
+import java.util.UUID;
 import java.util.concurrent.Semaphore;
 
 public class MessageQueue {
     private final MessageQueueBase messageQueueBase = new MessageQueueBase();
     private final Semaphore queueSizeSemaphore = new Semaphore(0, true);
     private final Semaphore mutex = new Semaphore(1, true);
+    private final UUID uuid = UUID.randomUUID();
 
     public void push(Message message) throws InterruptedException {
         mutex.acquire();

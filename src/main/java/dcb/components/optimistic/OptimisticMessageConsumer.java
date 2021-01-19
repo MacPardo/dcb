@@ -5,7 +5,7 @@ import dcb.core.State;
 import dcb.exceptions.DcbException;
 import dcb.core.Gateway;
 import dcb.components.utils.MessageQueue;
-import dcb.core.Messenger;
+import dcb.core.MessengerImpl;
 import dcb.core.models.Message;
 import dcb.components.utils.RollbackManager;
 import dcb.utils.Pair;
@@ -19,7 +19,7 @@ import java.util.Set;
 class OptimisticMessageConsumer implements Runnable {
     private static final double CHECKPOINTING_PROBABILITY = 0.5;
     private final MessageQueue messageQueue;
-    private final Messenger messenger;
+    private final MessengerImpl messenger;
     private final Gateway gateway;
     private final List<Message> initialMessages;
     private final RollbackManager rollbackManager;
@@ -53,7 +53,6 @@ class OptimisticMessageConsumer implements Runnable {
 
             while (true) {
                 Message message = messageQueue.pop();
-                System.out.println("Got a message: " + message);
                 onMessage(message);
             }
         } catch (Exception e) {
@@ -64,24 +63,18 @@ class OptimisticMessageConsumer implements Runnable {
     private static void printTime() {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss:SSS");
         LocalDateTime now = LocalDateTime.now();
-        System.out.println(dateTimeFormatter.format(now));
     }
 
     private void onMessage(Message message) throws InterruptedException, DcbException {
-        System.out.print("on message: ");
         printTime();
-        System.out.println("there are " + rollbackManager.getCheckpoints().size() + " checkpoints");
 
         boolean violatesLcc = message.execTs < rollbackManager.getLvt();
         if (violatesLcc) {
-            System.out.println("this message caused an LCC violation");
             Set<Message> messages = rollbackManager.rollback(message.execTs);
             for (Message message1 : messages) {
                 messenger.send(message1);
             }
             return;
-        } else if (message.isAnti) {
-            System.out.println("I got an anti message that does not violate LCC");
         }
 
         rollbackManager.saveMessage(message);

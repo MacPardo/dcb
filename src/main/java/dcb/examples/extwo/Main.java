@@ -22,23 +22,23 @@ public class Main {
         componentInfos.add(new ComponentInfo(
                 SENDER_ID,
                 address,
-                new ComponentCoreSender(),
-                ComponentType.OPTIMISTIC
+                new BehaviorSender(),
+                ComponentType.SILENT_OPTIMISTIC
         ));
         componentInfos.add(new ComponentInfo(
                 RECEIVER_ID,
                 address,
-                new ComponentCoreReceiver(),
+                new BehaviorReceiver(),
                 ComponentType.OPTIMISTIC
         ));
 
         Map<ComponentPort, ComponentPort> connections = new HashMap<>();
         connections.put(
-                new ComponentPort(SENDER_ID, ComponentCoreSender.OUTPUT),
+                new ComponentPort(SENDER_ID, BehaviorSender.OUTPUT),
                 new ComponentPort(RECEIVER_ID, "input")
         );
         connections.put(
-                new ComponentPort(SENDER_ID, ComponentCoreSender.MYSELF),
+                new ComponentPort(SENDER_ID, BehaviorSender.MYSELF),
                 new ComponentPort(SENDER_ID, "input")
         );
 

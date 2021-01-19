@@ -2,16 +2,16 @@ package dcb.core.runner;
 
 import dcb.components.ComponentFactory;
 import dcb.components.ComponentFactoryArgs;
-import dcb.core.Translator;
-import dcb.core.Messenger;
+import dcb.core.TranslatorImpl;
+import dcb.core.MessengerImpl;
 import dcb.core.models.ComponentInfo;
 import dcb.core.models.ComponentPort;
 import dcb.core.models.Message;
 import dcb.core.models.NetworkAddress;
 import dcb.core.network.Client;
 import dcb.core.network.Server;
-import dcb.utils.BlockingQueueReceiver;
-import dcb.utils.BlockingQueueSender;
+import dcb.utils.Receiver;
+import dcb.utils.Sender;
 import dcb.utils.Pair;
 import dcb.utils.UUIDGeneratorImpl;
 
@@ -35,29 +35,28 @@ public class AddressRunner implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("inside address runner with " + networkAddress);
-        var localSenders = new HashMap<Integer, BlockingQueueSender<Message>>();
-        var localReceivers = new HashMap<Integer, BlockingQueueReceiver<Message>>();
+        var localSenders = new HashMap<Integer, Sender<Message>>();
+        var localReceivers = new HashMap<Integer, Receiver<Message>>();
         var addresses = new HashMap<Integer, NetworkAddress>();
 
         for (ComponentInfo info : componentInfoList) {
             if (info.address == networkAddress) {
                 var queue = new ArrayBlockingQueue<Message>(QUEUE_CAPACITY);
-                localReceivers.put(info.id, new BlockingQueueReceiver<>(queue));
-                localSenders.put(info.id, new BlockingQueueSender<>(queue));
+                localReceivers.put(info.id, new Receiver<>(queue));
+                localSenders.put(info.id, new Sender<>(queue));
             } else {
                 addresses.put(info.id, info.address);
             }
         }
 
         var clientQueue = new ArrayBlockingQueue<Pair<Message, NetworkAddress>>(QUEUE_CAPACITY);
-        var messenger = new Messenger(
+        var messenger = new MessengerImpl(
                 localSenders,
                 addresses,
-                new BlockingQueueSender<>(clientQueue)
+                new Sender<>(clientQueue)
         );
 
-        var clientThread = new Thread(new Client(new BlockingQueueReceiver<>(clientQueue)));
+        var clientThread = new Thread(new Client(new Receiver<>(clientQueue)));
         clientThread.start();
 
 
@@ -72,7 +71,7 @@ public class AddressRunner implements Runnable {
                     info.core,
                     receiver,
                     messenger,
-                    new Translator(id, connections, new UUIDGeneratorImpl())
+                    new TranslatorImpl(id, connections, new UUIDGeneratorImpl())
             ));
             final var thread = new Thread(component);
             thread.start();

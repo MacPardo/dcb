@@ -23,38 +23,36 @@ public class Main {
         componentInfos.add(new ComponentInfo(
                 COMPONENT1,
                 ADDR1,
-                new ChatComponentCore(1000),
+                new ChatBehavior(1000),
                 ComponentType.OPTIMISTIC
         ));
         componentInfos.add(new ComponentInfo(
                 COMPONENT2,
                 ADDR1,
-                new ChatComponentCore(100),
+                new ChatBehavior(100),
                 ComponentType.OPTIMISTIC
         ));
         componentInfos.add(new ComponentInfo(
                 COMPONENT3,
                 ADDR1,
-                new ChatComponentCore(500),
+                new ChatBehavior(500),
                 ComponentType.OPTIMISTIC
         ));
 
         final Map<ComponentPort, ComponentPort> connections = new HashMap<>(10);
         connections.put(
-                new ComponentPort(COMPONENT1, ChatComponentCore.OUTPUT),
-                new ComponentPort(COMPONENT2, ChatComponentCore.INPUT)
+                new ComponentPort(COMPONENT1, ChatBehavior.OUTPUT),
+                new ComponentPort(COMPONENT2, ChatBehavior.INPUT)
         );
         connections.put(
-                new ComponentPort(COMPONENT2, ChatComponentCore.OUTPUT),
-                new ComponentPort(COMPONENT3, ChatComponentCore.INPUT)
+                new ComponentPort(COMPONENT2, ChatBehavior.OUTPUT),
+                new ComponentPort(COMPONENT3, ChatBehavior.INPUT)
         );
         connections.put(
-                new ComponentPort(COMPONENT3, ChatComponentCore.OUTPUT),
-                new ComponentPort(COMPONENT1, ChatComponentCore.INPUT)
+                new ComponentPort(COMPONENT3, ChatBehavior.OUTPUT),
+                new ComponentPort(COMPONENT1, ChatBehavior.INPUT)
         );
 
-        System.out.println("componentInfos: " + componentInfos);
-        System.out.println("connections: " + connections);
         final var runner = new Runner(componentInfos, connections);
         runner.run();
     }

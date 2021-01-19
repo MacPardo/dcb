@@ -2,10 +2,10 @@ package dcb.utils;
 
 import java.util.concurrent.BlockingQueue;
 
-public class BlockingQueueSender<T> {
+public class Sender<T> {
     private final BlockingQueue<T> queue;
 
-    public BlockingQueueSender(BlockingQueue<T> queue) {
+    public Sender(BlockingQueue<T> queue) {
         this.queue = queue;
     }
 

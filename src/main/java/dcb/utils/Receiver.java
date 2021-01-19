@@ -3,10 +3,10 @@ package dcb.utils;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-public class BlockingQueueReceiver<T> {
+public class Receiver<T> {
     private final BlockingQueue<T> queue;
 
-    public BlockingQueueReceiver(BlockingQueue<T> queue) {
+    public Receiver(BlockingQueue<T> queue) {
         this.queue = queue;
     }
 

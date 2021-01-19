@@ -4,7 +4,6 @@ import dcb.core.State;
 import dcb.exceptions.InsufficientCheckpointsException;
 import dcb.exceptions.InvalidMessageException;
 import dcb.exceptions.TimeViolationException;
-import dcb.core.models.Checkpoint;
 import dcb.core.models.Message;
 
 import java.util.*;
@@ -56,7 +55,6 @@ public class RollbackManager {
 
     public void saveMessage(Message message) throws InvalidMessageException, TimeViolationException {
         if (message.from != id && message.to != id || message.isAnti) {
-            System.out.println("you are trying to save an anti message!");
             throw new InvalidMessageException();
         }
 
@@ -77,7 +75,6 @@ public class RollbackManager {
 
     @SuppressWarnings("OverlyLongMethod")
     public Set<Message> rollback(long timestamp) throws TimeViolationException, InsufficientCheckpointsException {
-        System.out.println("rolling back from " + lvt + " to " + timestamp);
         Set<Message> toBeSent = new HashSet<>(INITIAL_CAPACITY);
 
         if (timestamp > lvt) {
@@ -100,8 +97,6 @@ public class RollbackManager {
                 break;
             }
         }
-
-        System.out.println("actually rolled back to " + lvt);
 
         while (!receivedMessages.isEmpty()) {
             Message lastMessage = last(receivedMessages);

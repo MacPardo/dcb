@@ -1,6 +1,7 @@
 package dcb.components;
 
 import dcb.components.optimistic.OptimisticComponent;
+import dcb.components.optimistic.SilentOptimisticComponent;
 import dcb.components.probcheckpoints.ProbabilisticCheckpointComponent;
 import dcb.components.rdtlgc.RdtLgcComponent;
 import dcb.core.Component;
@@ -12,6 +13,7 @@ public class ComponentFactory {
     ) {
         return switch (componentType) {
             case OPTIMISTIC -> new OptimisticComponent(componentFactoryArgs);
+            case SILENT_OPTIMISTIC -> new SilentOptimisticComponent(componentFactoryArgs);
             case PROBABILISTIC_CHECKPOINTS -> new ProbabilisticCheckpointComponent(componentFactoryArgs);
             case RDT_LGC -> new RdtLgcComponent(componentFactoryArgs);
         };

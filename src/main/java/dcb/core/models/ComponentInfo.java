@@ -1,17 +1,17 @@
 package dcb.core.models;
 
 import dcb.components.ComponentType;
-import dcb.core.ComponentCore;
+import dcb.core.Behavior;
 
 import java.util.Objects;
 
 public class ComponentInfo {
     public final int id;
     public final NetworkAddress address;
-    public final ComponentCore core;
+    public final Behavior core;
     public final ComponentType type;
 
-    public ComponentInfo(int id, NetworkAddress address, ComponentCore core, ComponentType type) {
+    public ComponentInfo(int id, NetworkAddress address, Behavior core, ComponentType type) {
         this.id = id;
         this.address = address;
         this.core = core;
