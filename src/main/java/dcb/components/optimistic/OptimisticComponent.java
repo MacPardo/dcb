@@ -26,6 +26,10 @@ public class OptimisticComponent extends Component {
         gateway = new TranslatorGateway(args.translator, args.core);
     }
 
+    private void print(String message) {
+        System.out.println("<" + rollbackManager.id + "> - " + message);
+    }
+
     @Override
     public void run() {
         try {
@@ -46,7 +50,6 @@ public class OptimisticComponent extends Component {
             args.messenger.send(message);
         }
 
-
         while (true) {
             Message message = args.receiver.poll(1L, TimeUnit.DAYS);
 
@@ -56,16 +59,16 @@ public class OptimisticComponent extends Component {
             if (messageQueue.canPeekTimestamp()) {
                 boolean violates = isThereLCCViolation();
                 if (violates) {
-                    System.out.println("rolling back to " + messageQueue.peekTimestamp());
+                    print("rolling back to " + messageQueue.peekTimestamp());
                     Collection<Message> messages = rollbackManager.rollback(messageQueue.peekTimestamp());
-                    System.out.println("rolled back to " + rollbackManager.getLvt());
+                    print("rolled back to " + rollbackManager.getLvt());
                     for (Message m : messages) {
                         args.messenger.send(m);
                     }
                 } else if (messageQueue.canPop()) {
                     onMessage(messageQueue.pop());
                 } else {
-                    System.out.println("???");
+                    print("???");
                 }
             }
         }
@@ -76,7 +79,7 @@ public class OptimisticComponent extends Component {
     }
 
     void onMessage(Message message) throws DcbException, InterruptedException {
-        System.out.println("got message " + message);
+        print("got message " + message);
         rollbackManager.saveMessage(message);
         long timestamp = message.execTs;
         Pair<State, List<Message>> values = gateway.onMessage(rollbackManager.getState(), message);

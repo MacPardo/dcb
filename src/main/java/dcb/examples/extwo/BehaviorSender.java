@@ -23,6 +23,9 @@ public class BehaviorSender implements Behavior {
     private static List<BehaviorMessage> getMessages() {
         var ts = (long) (Math.random() * 1000);
         var msgs= new ArrayList<BehaviorMessage>();
+
+        System.out.println("B_SENDER - " + ts);
+
         msgs.add(new BehaviorMessage("", OUTPUT, ts));
         msgs.add(new BehaviorMessage("", MYSELF, 0));
         return msgs;
