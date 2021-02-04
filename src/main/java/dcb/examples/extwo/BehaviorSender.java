@@ -20,11 +20,16 @@ public class BehaviorSender implements Behavior {
         }
     }
 
+    private static void print(Object s) {
+        System.out.print("B_SENDER - " + s);
+        System.out.println();
+    }
+
     private static List<BehaviorMessage> getMessages() {
         var ts = (long) (Math.random() * 1000);
-        var msgs= new ArrayList<BehaviorMessage>();
+        var msgs = new ArrayList<BehaviorMessage>();
 
-        System.out.println("B_SENDER - " + ts);
+        print(ts);
 
         msgs.add(new BehaviorMessage("", OUTPUT, ts));
         msgs.add(new BehaviorMessage("", MYSELF, 0));
@@ -38,6 +43,7 @@ public class BehaviorSender implements Behavior {
 
     @Override
     public Pair<State, List<BehaviorMessage>> onMessage(State state, BehaviorMessage message) {
+        print("got message " + message.execTs);
         return new Pair<>(new MyState(), getMessages());
     }
 }

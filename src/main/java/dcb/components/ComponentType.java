@@ -2,7 +2,6 @@ package dcb.components;
 
 public enum ComponentType {
     OPTIMISTIC,
-    SILENT_OPTIMISTIC,
     PROBABILISTIC_CHECKPOINTS,
     RDT_LGC;
 

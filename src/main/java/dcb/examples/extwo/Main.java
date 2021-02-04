@@ -23,7 +23,7 @@ public class Main {
                 SENDER_ID,
                 address,
                 new BehaviorSender(),
-                ComponentType.SILENT_OPTIMISTIC
+                ComponentType.OPTIMISTIC
         ));
         componentInfos.add(new ComponentInfo(
                 RECEIVER_ID,

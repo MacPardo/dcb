@@ -52,6 +52,7 @@ public class OptimisticComponent extends Component {
 
         while (true) {
             Message message = args.receiver.poll(1L, TimeUnit.DAYS);
+            print(" -----> received " + message);
 
             messageQueue.push(message);
 
@@ -62,14 +63,11 @@ public class OptimisticComponent extends Component {
                     print("rolling back to " + messageQueue.peekTimestamp());
                     Collection<Message> messages = rollbackManager.rollback(messageQueue.peekTimestamp());
                     print("rolled back to " + rollbackManager.getLvt());
-                    for (Message m : messages) {
-                        args.messenger.send(m);
+                    for (Message msg : messages) {
+                        args.messenger.send(msg);
                     }
-                } else if (messageQueue.canPop()) {
-                    onMessage(messageQueue.pop());
-                } else {
-                    print("???");
                 }
+                onMessage(messageQueue.pop());
             }
         }
     }

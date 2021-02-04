@@ -52,14 +52,7 @@ public class RollbackManager {
         checkpoints.add(new Checkpoint<>(0L, initialState.copy()));
     }
 
-    private void printPrefix() {
-        if (id == 1) System.out.print("RB(" + id + ") - ");
-    }
-
     public void saveMessage(Message message) throws InvalidMessageException, TimeViolationException {
-        printPrefix();
-        if (id == 1) System.out.println("saving message: " +  message);
-
         if (message.from != id && message.to != id || message.isAnti) {
             throw new InvalidMessageException();
         }
@@ -74,12 +67,6 @@ public class RollbackManager {
         } else {
             Message lastMessage = last(receivedMessages);
             if (lastMessage != null && lastMessage.execTs > message.execTs) {
-                printPrefix();
-                if (id == 1) {
-                    System.out.println("is throwing a TimeViolationException");
-                    System.out.println("last_exec_ts = " + lastMessage.execTs);
-                    System.out.println("recv_exec_ts = " + message.execTs);
-                }
                 throw new TimeViolationException();
             }
             lvt = Math.max(lvt, message.execTs);
@@ -89,9 +76,6 @@ public class RollbackManager {
 
     @SuppressWarnings("OverlyLongMethod")
     public Set<Message> rollback(long timestamp) throws TimeViolationException, InsufficientCheckpointsException {
-        printPrefix();
-        if (id == 1) System.out.println("rolling back: " + timestamp);
-
         Set<Message> toBeSent = new HashSet<>(INITIAL_CAPACITY);
 
         if (timestamp > lvt) {
@@ -117,12 +101,8 @@ public class RollbackManager {
 
         while (!receivedMessages.isEmpty()) {
             Message lastMessage = last(receivedMessages);
-            printPrefix();
-            System.out.println("last rec msg is " + lastMessage);
-
             assert lastMessage != null;
             if (lastMessage.execTs > lvt) {
-                System.out.println("removing...");
                 removeLast(receivedMessages);
                 toBeSent.add(lastMessage);
             } else {
@@ -134,10 +114,7 @@ public class RollbackManager {
             final Message lastMessage = last(sentMessages);
             assert lastMessage != null;
 
-            printPrefix();
-            System.out.println("last sent msg is " + lastMessage);
             if (lastMessage.sentTs > lvt) {
-                System.out.println("removing...");
                 toBeSent.add(lastMessage.getInverse());
                 removeLast(sentMessages);
             } else {
@@ -176,17 +153,11 @@ public class RollbackManager {
     }
 
     public void takeCheckpoint() {
-        printPrefix();
-        if (id == 1) System.out.println("taking checkpoint at " + lvt);
-
         lvt += 1L;
         checkpoints.add(new Checkpoint<>(lvt, state.copy()));
     }
 
     public void update(State newState, long newLvt) throws TimeViolationException {
-        printPrefix();
-        if (id == 1) System.out.println("updating from (state1, " + lvt + ") to (state2, " + newLvt + ")");
-
         if (newLvt < lvt) {
             throw new TimeViolationException();
         }

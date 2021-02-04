@@ -20,8 +20,11 @@ public class MessengerImpl implements Messenger {
     }
 
     private void sendWithOption(Message message, boolean localOnly) throws DcbException, InterruptedException {
+        System.out.println("{{Messenger (from=" + message.from + ", to=" + message.to + ", sentTs=" + message.sentTs + ", execTs=" + message.execTs + ")}}");
+
         Sender<Message> sender = localSenders.getOrDefault(message.to, null);
         if (sender != null) {
+            System.out.println("{{__sender (from=" + message.from + ", to=" + message.to + ", sentTs=" + message.sentTs + ", execTs=" + message.execTs + ")}}");
             sender.put(message);
             return;
         }
