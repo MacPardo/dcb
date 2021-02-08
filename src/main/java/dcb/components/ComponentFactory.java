@@ -14,6 +14,7 @@ public class ComponentFactory {
             case OPTIMISTIC -> new OptimisticComponent(componentFactoryArgs);
             case PROBABILISTIC_CHECKPOINTS -> new ProbabilisticCheckpointComponent(componentFactoryArgs);
             case RDT_LGC -> new RdtLgcComponent(componentFactoryArgs);
+            case SPACED_CHECKPOINTS -> null;
         };
     }
 }

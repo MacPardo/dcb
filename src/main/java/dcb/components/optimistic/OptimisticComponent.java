@@ -18,8 +18,8 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings({"InfiniteLoopStatement", "MagicNumber", "UnsecureRandomNumberGeneration"})
 public class OptimisticComponent extends Component {
     private final MessageQueueBase messageQueue = new MessageQueueBase();
-    private Gateway gateway;
-    private RollbackManager rollbackManager;
+    private final Gateway gateway;
+    private RollbackManager rollbackManager = null;
 
     public OptimisticComponent(ComponentFactoryArgs args) {
         super(args);
@@ -53,10 +53,10 @@ public class OptimisticComponent extends Component {
         while (true) {
             Message message = args.receiver.poll(1L, TimeUnit.DAYS);
             print(" -----> received " + message);
+            print("__RB-stat (recv=" + rollbackManager.receivedMessages.size() + ", sent=" + rollbackManager.sentMessages.size() + ", chck=" + rollbackManager.checkpoints.size() + ")");
 
             messageQueue.push(message);
 
-            boolean canPeek = messageQueue.canPeekTimestamp();
             if (messageQueue.canPeekTimestamp()) {
                 boolean violates = isThereLCCViolation();
                 if (violates) {
@@ -95,7 +95,8 @@ public class OptimisticComponent extends Component {
         }
     }
 
-    static boolean shouldTakeCheckpoint() {
+    @SuppressWarnings("MethodMayBeStatic")
+    boolean shouldTakeCheckpoint() {
         return true;
     }
 }
