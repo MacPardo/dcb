@@ -15,30 +15,15 @@ public class ComponentFactoryArgs {
     public final Receiver<Message> receiver;
     public final MessengerImpl messenger;
     public final TranslatorImpl translator;
+    public final String outputFilename;
 
-    public ComponentFactoryArgs(int id, Behavior core, Receiver<Message> receiver, MessengerImpl messenger, TranslatorImpl translator) {
+    public ComponentFactoryArgs(int id, Behavior core, Receiver<Message> receiver, MessengerImpl messenger, TranslatorImpl translator, String outputFilename) {
         this.id = id;
         this.core = core;
         this.receiver = receiver;
         this.messenger = messenger;
         this.translator = translator;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ComponentFactoryArgs that = (ComponentFactoryArgs) o;
-        return id == that.id &&
-                Objects.equals(core, that.core) &&
-                Objects.equals(receiver, that.receiver) &&
-                Objects.equals(messenger, that.messenger) &&
-                Objects.equals(translator, that.translator);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, core, receiver, messenger, translator);
+        this.outputFilename = outputFilename;
     }
 
     @Override

@@ -1,19 +1,26 @@
 package dcb.core.models;
 
+import dcb.components.utils.DependencyVector;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Message implements Serializable {
+    @Serial
     private static final long serialVersionUID = 8632777422616253354L;
+
     public final long sentTs;
     public final long execTs;
     public final int from;
     public final int to;
     public final String payload;
+    public String componentPayload = "";
     public final String route;
     public final UUID uuid;
     public final boolean isAnti;
+    public DependencyVector dependencyVector;
 
     public Message(long sentTs, long execTs, int from, int to, String payload, String route, UUID uuid, boolean isAnti) {
         this.sentTs = sentTs;
@@ -31,14 +38,15 @@ public class Message implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Message message = (Message) o;
-        return sentTs == message.sentTs &&
-               execTs == message.execTs &&
-               from == message.from &&
-               to == message.to &&
-               isAnti == message.isAnti &&
-               Objects.equals(payload, message.payload) &&
-               Objects.equals(route, message.route) &&
-               Objects.equals(uuid, message.uuid);
+        return Objects.equals(uuid, message.uuid) && isAnti == message.isAnti;
+//        return sentTs == message.sentTs &&
+//               execTs == message.execTs &&
+//               from == message.from &&
+//               to == message.to &&
+//               isAnti == message.isAnti &&
+//               Objects.equals(payload, message.payload) &&
+//               Objects.equals(route, message.route) &&
+//               Objects.equals(uuid, message.uuid);
     }
 
     @Override

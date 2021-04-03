@@ -71,8 +71,8 @@ public class AddressRunner implements Runnable {
                     info.core,
                     receiver,
                     messenger,
-                    new TranslatorImpl(id, connections, new UUIDGeneratorImpl())
-            ));
+                    new TranslatorImpl(id, connections, new UUIDGeneratorImpl()),
+                    info.outputFile));
             final var thread = new Thread(component);
             thread.start();
         });

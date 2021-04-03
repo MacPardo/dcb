@@ -10,38 +10,14 @@ public class ComponentInfo {
     public final NetworkAddress address;
     public final Behavior core;
     public final ComponentType type;
+    public final String outputFile;
 
-    public ComponentInfo(int id, NetworkAddress address, Behavior core, ComponentType type) {
+    public ComponentInfo(int id, NetworkAddress address, Behavior core, ComponentType type, String outputFile) {
         this.id = id;
         this.address = address;
         this.core = core;
         this.type = type;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ComponentInfo info = (ComponentInfo) o;
-        return id == info.id &&
-                Objects.equals(address, info.address) &&
-                Objects.equals(core, info.core) &&
-                type == info.type;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, address, core, type);
-    }
-
-    @Override
-    public String toString() {
-        return "ComponentInfo{" +
-                "id=" + id +
-                ", address=" + address +
-                ", core=" + core +
-                ", type=" + type +
-                '}';
+        this.outputFile = outputFile;
     }
 }
 

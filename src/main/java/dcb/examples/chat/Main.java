@@ -24,20 +24,20 @@ public class Main {
                 COMPONENT1,
                 ADDR1,
                 new ChatBehavior(1000),
-                ComponentType.OPTIMISTIC
-        ));
+                ComponentType.OPTIMISTIC,
+                ""));
         componentInfos.add(new ComponentInfo(
                 COMPONENT2,
                 ADDR1,
                 new ChatBehavior(100),
-                ComponentType.OPTIMISTIC
-        ));
+                ComponentType.OPTIMISTIC,
+                ""));
         componentInfos.add(new ComponentInfo(
                 COMPONENT3,
                 ADDR1,
                 new ChatBehavior(500),
-                ComponentType.OPTIMISTIC
-        ));
+                ComponentType.OPTIMISTIC,
+                ""));
 
         final Map<ComponentPort, ComponentPort> connections = new HashMap<>(10);
         connections.put(

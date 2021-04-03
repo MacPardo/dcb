@@ -11,15 +11,26 @@ import dcb.core.models.Message;
 import dcb.exceptions.DcbException;
 import dcb.utils.Pair;
 
+import java.lang.reflect.Array;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings({"InfiniteLoopStatement", "MagicNumber", "UnsecureRandomNumberGeneration"})
 public class OptimisticComponent extends Component {
+
+    private class CCB {
+        public int ind;
+        public int rc;
+    }
+
     private final MessageQueueBase messageQueue = new MessageQueueBase();
     private final Gateway gateway;
     private RollbackManager rollbackManager = null;
+    private int eventCount = 0;
+    private Map<Integer, CCB> UC = new HashMap<>();
 
     public OptimisticComponent(ComponentFactoryArgs args) {
         super(args);
@@ -96,7 +107,7 @@ public class OptimisticComponent extends Component {
     }
 
     @SuppressWarnings("MethodMayBeStatic")
-    boolean shouldTakeCheckpoint() {
-        return true;
+    public boolean shouldTakeCheckpoint() {
+        return eventCount % 10 == 0;
     }
 }

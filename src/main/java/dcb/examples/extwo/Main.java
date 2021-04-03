@@ -23,14 +23,14 @@ public class Main {
                 SENDER_ID,
                 address,
                 new BehaviorSender(),
-                ComponentType.OPTIMISTIC
-        ));
+                ComponentType.RDT_LGC,
+                ""));
         componentInfos.add(new ComponentInfo(
                 RECEIVER_ID,
                 address,
                 new BehaviorReceiver(),
-                ComponentType.OPTIMISTIC
-        ));
+                ComponentType.RDT_LGC,
+                ""));
 
         Map<ComponentPort, ComponentPort> connections = new HashMap<>();
         connections.put(

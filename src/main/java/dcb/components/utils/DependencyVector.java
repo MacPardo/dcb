@@ -11,7 +11,7 @@ public class DependencyVector {
     private final int ownerId;
 
     // Keys: component IDs, Values: Timestamps
-    private final Map<Integer, Long> timestamps;
+    public final Map<Integer, Long> timestamps;
 
     public DependencyVector(int ownerId, Map<Integer, Long> timestamps) {
         this.ownerId = ownerId;

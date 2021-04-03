@@ -48,8 +48,7 @@ class TranslatorTest {
                         payload,
                         inputPort,
                         uuid,
-                        false
-                ),
+                        false),
                 firstTranslated
         );
 
