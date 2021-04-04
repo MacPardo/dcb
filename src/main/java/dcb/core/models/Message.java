@@ -39,14 +39,6 @@ public class Message implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Message message = (Message) o;
         return Objects.equals(uuid, message.uuid) && isAnti == message.isAnti;
-//        return sentTs == message.sentTs &&
-//               execTs == message.execTs &&
-//               from == message.from &&
-//               to == message.to &&
-//               isAnti == message.isAnti &&
-//               Objects.equals(payload, message.payload) &&
-//               Objects.equals(route, message.route) &&
-//               Objects.equals(uuid, message.uuid);
     }
 
     @Override

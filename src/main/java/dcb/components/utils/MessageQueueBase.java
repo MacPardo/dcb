@@ -8,7 +8,7 @@ import java.util.Queue;
 
 public class MessageQueueBase {
     private static final int INITIAL_CAPACITY = 0xFF;
-    private static final Comparator<Message> comparator = (m1, m2) -> Long.compare(m2.execTs, m1.execTs);
+    private static final Comparator<Message> comparator = Comparator.comparingLong(m -> m.execTs);
     public final PriorityQueue<Message> regularQueue = new PriorityQueue<>(
             INITIAL_CAPACITY,
             comparator
